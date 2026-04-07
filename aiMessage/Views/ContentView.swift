@@ -15,25 +15,39 @@ struct ContentView: View {
         ChatMessage(text: "I'm doing well, thanks for asking!", isUser: true)
     ]
     var body: some View {
+        
         VStack {
             Text("aiMessage")
                 .font(.largeTitle)
-            
-            ForEach(messages) { message in
-                HStack {
-                    if message.isUser {
-                        Spacer() // pushes to right
-                    }
-                    Text(message.text)
-                        .background(message.isUser ? Color.blue.opacity(0.2) : Color.gray.opacity(0.2))
-                        .cornerRadius(12)
-                        .padding(8)
-                    
-                    if !message.isUser {
-                        Spacer() // pushes to left
+            ScrollViewReader { proxy in
+                ScrollView {
+                    ForEach(messages) { message in
+                        HStack {
+                            if message.isUser {
+                                Spacer() // pushes to right
+                            }
+                            Text(message.text)
+                                .padding(8)
+                                .background(message.isUser ? Color.blue.opacity(0.2) : Color.gray.opacity(0.2))
+                                .cornerRadius(12)
+                                .id(message.id)
+                            
+                            if !message.isUser {
+                                Spacer() // pushes to left
+                            }
+                        }
+                        
                     }
                 }
-                
+                .padding()
+            
+            .onChange(of: messages.count) {
+                if let last = messages.last {
+                    withAnimation {
+                        proxy.scrollTo(last.id, anchor: .bottom)
+                    }
+                    }
+                }
             }
             HStack {
                 TextField("Enter a message", text: $textInput)
@@ -41,6 +55,7 @@ struct ContentView: View {
                     sendMessage()
                 }
             }
+            .padding()
         }
         Spacer()
     }
