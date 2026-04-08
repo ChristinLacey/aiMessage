@@ -12,42 +12,28 @@ struct ContentView: View {
     @State private var isTyping: Bool = false
     @State private var messages = [
         ChatMessage(text: "Good morning", isUser: true),
-        ChatMessage(text: "Hello, how are you?", isUser: false),
+        ChatMessage(text: "Hello, how are you? Good morning Good morning Good morning Good morning", isUser: false),
         ChatMessage(text: "I'm doing well, thanks for asking!", isUser: true)
     ]
+    var trimmedInput: String {
+        textInput.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Text("aiMessage")
                 .font(.largeTitle)
+                .padding(.top)
+                .padding(.bottom, 8)
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 12) {
                         ForEach(messages) { message in
-                            HStack {
-                                if message.isUser {
-                                    Spacer() // pushes to right
-                                }
-                                Text(message.text)
-                                    .padding(8)
-                                    .background(message.isUser ? Color.blue.opacity(0.2) : Color.gray.opacity(0.2))
-                                    .cornerRadius(12)
-                                    .id(message.id)
-                                
-                                if !message.isUser {
-                                    Spacer() // pushes to left
-                                }
-                                
-                            }
-                            
+                            MessageBubbleView(message: message)
+                                .id(message.id)
                         }
                         if isTyping {
-                            HStack {
-                                Text("...")
-                                    .padding(8)
-                                    .background(Color.gray.opacity(0.2))
-                                    .cornerRadius(12)
-                                Spacer()
-                            }
+                            MessageBubbleView(message: ChatMessage(text: "...", isUser: false))
                         }
                     }
                     .padding()
@@ -66,13 +52,19 @@ struct ContentView: View {
                 Button("Send") {
                     sendMessage()
                 }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(trimmedInput.isEmpty ? Color.blue.opacity(0.5) : Color.blue)
+                .foregroundStyle(.white)
+                .cornerRadius(16)
+                .disabled(trimmedInput.isEmpty)
             }
             .padding()
         }
     }
     
     func sendMessage() {
-        guard !textInput.isEmpty else { return }
+        guard !trimmedInput.isEmpty else { return }
         
         let userMessage = ChatMessage(text: textInput, isUser: true)
         messages.append(userMessage)
