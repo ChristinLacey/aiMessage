@@ -49,7 +49,7 @@ struct ContentView: View {
                 .padding(.vertical, 8)
                 .background(viewModel.trimmedInput.isEmpty ? Color.blue.opacity(0.5) : Color.blue)
                 .foregroundStyle(.white)
-                .cornerRadius(16)
+                .clipShape(.rect(cornerRadius: 16))
                 .disabled(viewModel.trimmedInput.isEmpty)
             }
             .padding()
