@@ -45,6 +45,10 @@ DerivedData/
 *.xcworkspace
 *.xcuserstate
 
+# Security
+.env
+node_modules
+
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
