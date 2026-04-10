@@ -14,6 +14,9 @@ app.post("/chat", async (req, res) => {
   try {
     const message = req.body.message ?? "";
 
+    console.log("FULL BODY:", req.body);
+    console.log("MESSAGE:", message);
+
     if (!message.trim()) {
       return res.status(400).json({ error: "Message is required." });
     }

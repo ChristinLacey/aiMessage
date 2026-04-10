@@ -21,21 +21,31 @@ class ChatViewModel {
     var trimmedInput: String {
         textInput.trimmingCharacters(in: .whitespacesAndNewlines)
     }
+    private let chatService = ChatService()
     
     func sendMessage() async {
         guard !trimmedInput.isEmpty else { return }
         
-        let userMessage = ChatMessage(text: trimmedInput, isUser: true)
+        let messageToSend = trimmedInput
+        let userMessage = ChatMessage(text: messageToSend, isUser: true)
         messages.append(userMessage)
         
         textInput = ""
-        try? await Task.sleep(for: .milliseconds(250))
-        isTyping = true
-
-        try? await Task.sleep(for: .milliseconds(750))
-        isTyping = false
-        let aiResponse = ChatMessage(text: "Your message was received!", isUser: false)
-        messages.append(aiResponse)
-        
+        do {
+            try await Task.sleep(for: .milliseconds(250))
+            isTyping = true
+            
+            let reply = try await chatService.sendMessage(messageToSend)
+            
+            isTyping = false
+            let aiResponse = ChatMessage(text: reply, isUser: false)
+            messages.append(aiResponse)
+        } catch {
+            print("sendMessage error:", error)
+            isTyping = false
+            let errorMessage = ChatMessage(text: "An error occurred", isUser: false)
+            messages.append(errorMessage)
+            
+        }
     }
 }
