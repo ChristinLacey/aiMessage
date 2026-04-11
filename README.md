@@ -1,3 +1,5 @@
+<img src="assets/aiMessage-preview.png" width="300">
+
 # aiMessage :love_letter:
 
 simple lil ai chatbot in SwiftUI
