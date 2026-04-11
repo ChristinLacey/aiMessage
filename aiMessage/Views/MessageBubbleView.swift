@@ -15,12 +15,13 @@ struct MessageBubbleView: View {
             if message.isUser {
                 Spacer() // pushes to right
             }
-            Text(message.text)
+            Text(.init(message.text))
                 .multilineTextAlignment(.leading)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
-                .background(message.isUser ? Color.blue.opacity(0.2) : Color.gray.opacity(0.2))
-                .clipShape(.rect(cornerRadius: 16))
+                .background(message.isUser ? Color(red: 8/255, green: 127/255, blue: 254/255) : Color.gray.opacity(0.2))
+                .foregroundStyle(message.isUser ? .white : .black)
+                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                 .frame(maxWidth: 250, alignment: message.isUser ? .trailing : .leading)
             
             
