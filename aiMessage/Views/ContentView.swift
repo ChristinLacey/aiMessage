@@ -24,7 +24,10 @@ struct ContentView: View {
                                 .id(message.id)
                         }
                         if viewModel.isTyping {
-                            MessageBubbleView(message: ChatMessage(text: "...", isUser: false))
+                            HStack {
+                                TypingIndicatorView()
+                                Spacer()
+                            }
                         }
                     }
                     .padding()

@@ -14,9 +14,7 @@ class ChatViewModel {
     var textInput: String = ""
     var isTyping: Bool = false
     var messages: [ChatMessage] = [
-        ChatMessage(text: "Good morning", isUser: true),
-        ChatMessage(text: "Hello, how are you? Good morning Good morning Good morning Good morning", isUser: false),
-        ChatMessage(text: "I'm doing well, thanks for asking!", isUser: true)
+        ChatMessage(text: "you can ask me about anything, from space/time relativity to what you should make for dinner tonight.", isUser: false)
     ]
     var trimmedInput: String {
         textInput.trimmingCharacters(in: .whitespacesAndNewlines)
